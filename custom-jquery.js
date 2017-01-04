@@ -59,25 +59,45 @@ document.addEventListener("DOMContentLoaded", function(event) {
   jQueryObject.prototype.css = function(propertyName, value) {
     if (value) {
       this.each(function(element){
-        element.setAttribute('style', propertyName + ": " + value + ";");
+        element.style[propertyName] = value;
       });
       return this.selection;
     } else {
-
-      return this.idx(0).getAttribute("style");
+      return this.idx(0).style[propertyName];
     }
   };
 
-  // TODO
-  jQueryObject.prototype.height = function(height) {
-    if (height) {
+  jQueryObject.prototype.height = function(heightValue) {
+    if (heightValue) {
       this.each(function(element){
-        element.setAttribute('height', height);
+        element.style.height = String(heightValue) + "px";
       });
       return this.selection;
     } else {
-      var elementStyles = this.idx(0).getAttribute("style");
-      return elementStyles;
+      console.log(this);
+      return this.idx(0).style.height;
+    }
+  };
+
+  jQueryObject.prototype.width = function(widthValue) {
+    if (widthValue) {
+      this.each(function(element){
+        element.style.width = String(widthValue) + "px";
+      });
+      return this.selection;
+    } else {
+      return this.idx(0).style.width;
+    }
+  };
+
+  jQueryObject.prototype.attr = function(attributeName, attributeValue) {
+    if (attributeValue) {
+      this.each(function(element){
+        element.setAttribute(attributeName, attributeValue);
+      });
+      return this.selection;
+    } else {
+      return this.idx(0).getAttribute(attributeName);
     }
   };
 
