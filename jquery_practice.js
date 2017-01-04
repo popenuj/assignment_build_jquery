@@ -1,6 +1,8 @@
+
 function Foo(property) {
   this.property = property;
 }
+
 Foo.prototype.sampleMethod = function() {
   console.log("method")
 };
@@ -17,6 +19,7 @@ function Baz(property) {
 function SimpleObject() {
   this.collection = [1,"foo",3];
 }
+
 SimpleObject.prototype.each = function(funktion) {
   var coll = this.collection
   for (var i = 0; i < coll.length; i++) {

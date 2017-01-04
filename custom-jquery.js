@@ -2,17 +2,25 @@
 document.addEventListener("DOMContentLoaded", function(event) {
 
   window.$ = function $(queryTerm) {
+
     var queryResult;
     var dom = document;
+
     if (typeof queryTerm === "string") {
 
       queryResult = $.queryByString(queryTerm, dom);
+
+    } else if (typeof queryTerm === "object") {
+
+      queryResult = [queryTerm];
 
     }
 
     return new jQueryObject(queryResult);
 
   }
+
+  window.jquery = window.$;
 
   $.queryByString = function(queryTerm, dom) {
 
@@ -37,14 +45,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   };
 
-  function jQueryObject(result) {
-    if (!(this instanceof jQueryObject)) return new jQueryObject(result);
-    this.result = result;
-    this.length = result.length;
+  function jQueryObject(selection) {
+    if (!(this instanceof jQueryObject)) return new jQueryObject(selection);
+    this.selection = selection;
+    this.length = selection.length;
   }
 
   jQueryObject.prototype.idx = function(index) {
-    return this.result[index];
+    return this.selection[index];
+  };
+
+
+  jQueryObject.prototype.hasClass = function(className) {
+    this.each(function(element){
+      return element.classList.includes(className);
+    });
+  };
+
+  jQueryObject.prototype.each = function(funktion) {
+
+    console.log(this);
+
+    var selection = this.selection;
+
+    for (var i = 0; i < selection.length; i++) {
+      funktion([i], i, selection);
+    }
+
   };
 
 });
