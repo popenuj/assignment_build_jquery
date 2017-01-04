@@ -1,24 +1,50 @@
 
 document.addEventListener("DOMContentLoaded", function(event) {
 
-  function $(queryTerm) {
-
+  window.$ = function $(queryTerm) {
+    var queryResult;
     var dom = document;
+    if (typeof queryTerm === "string") {
 
-    if (/^#/.test(queryTerm)) {               // id
-
-      return dom.getElementById(queryTerm);
-
-    } else if (/^\./.test(queryTerm)) {       // class
-
-      return dom.getElementByClassName(queryTerm);
-
-    } else if (/^[a-zA-Z]/.test(queryTerm)) { // tag
-
-      return dom.getElementByTagName(queryTerm);
+      queryResult = $.queryByString(queryTerm, dom);
 
     }
 
+    return new jQueryObject(queryResult);
+
   }
+
+  $.queryByString = function(queryTerm, dom) {
+
+    var queryResult;
+    var formattedQuery = queryTerm.substr(1);
+
+    if (/^#/.test(queryTerm)) {               // id
+
+      queryResult = dom.getElementById(formattedQuery);
+
+    } else if (/^\./.test(queryTerm)) {       // class
+
+      queryResult = dom.getElementsByClassName(formattedQuery);
+
+    } else if (/^[a-zA-Z]/.test(queryTerm)) { // tag
+
+      queryResult = dom.getElementsByTagName(queryTerm);
+
+    }
+
+    return queryResult;
+
+  };
+
+  function jQueryObject(result) {
+    if (!(this instanceof jQueryObject)) return new jQueryObject(result);
+    this.result = result;
+    this.length = result.length;
+  }
+
+  jQueryObject.prototype.idx = function(index) {
+    return this.result[index];
+  };
 
 });
