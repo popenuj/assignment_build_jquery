@@ -56,6 +56,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
   };
 
 
+  jQueryObject.prototype.css = function(propertyName, value) {
+    if (value) {
+      this.each(function(element){
+        element.setAttribute('style', propertyName + ": " + value + ";");
+      });
+      return this.selection;
+    } else {
+
+      return this.idx(0).getAttribute("style");
+    }
+  };
+
+  // TODO
+  jQueryObject.prototype.height = function(height) {
+    if (height) {
+      this.each(function(element){
+        element.setAttribute('height', height);
+      });
+      return this.selection;
+    } else {
+      var elementStyles = this.idx(0).getAttribute("style");
+      return elementStyles;
+    }
+  };
+
   jQueryObject.prototype.hasClass = function(className) {
     var hasClass = false;
     this.each(function(element){
@@ -88,11 +113,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   jQueryObject.prototype.val = function(value) {
     if (value) {
       this.each(function(element){
-        element.classList.remove(className);
+        element.setAttribute('value', value);
       });
       return this.selection;
     } else {
-      return this.idx(0);
+      return this.idx(0).getAttribute("value");
     }
   };
 
@@ -100,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var selection = this.selection;
 
-    for (var i = 0; i < selection.length; i++) {
+    for(var i = 0; i < selection.length; i++) {
       funktion(selection[i], i, selection);
     }
 
